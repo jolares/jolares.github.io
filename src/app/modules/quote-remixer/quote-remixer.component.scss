@@ -1,0 +1,18 @@
+.quote-container {
+	margin-bottom: 8rem;
+	width: 100%;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.quote-card {
+	border: 1px solid black;
+	border-radius: 6px;
+	margin-right: 1rem;
+	padding: 1rem;
+	max-width: 500px;
+
+	.author {
+		text-align: right;
+	}
+}
