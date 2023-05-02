@@ -43,7 +43,8 @@
   "nx": {
     "targets": {
       "build": {
-        "outputs": ["apps/ai-blog/build"]
+        "outputs": ["apps/ai-blog/build"],
+        "dependsOn": ["^build"]
       }
     }
   }
