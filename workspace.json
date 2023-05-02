@@ -1,6 +1,10 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "ai-blog": {
+      "root": "apps/ai-blog"
+    }
+  },
   "cli": {
     "defaultCollection": "@nrwl/workspace"
   }
