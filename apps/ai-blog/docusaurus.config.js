@@ -19,7 +19,7 @@ const config = {
   /* GitHub Pages deployment config. Only needed if using using GitHub pages */
   organizationName: 'jolares', // Usually your GitHub org/user name.
   projectName: 'jolares.github.io', // Usually your repo name.
-  deploymentBranch: 'master',
+  deploymentBranch: 'github-pages',
   trailingSlash: false, // GitHub Pages adds a trailing slash to Docusaurus URLs by default.
 
   onBrokenLinks: 'throw',
