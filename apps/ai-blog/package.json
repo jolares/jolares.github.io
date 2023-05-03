@@ -53,6 +53,9 @@
         ]
       }
     },
-    "tags": ["type:app", "scope:ai-blog"]
+    "tags": [
+      "type:app",
+      "scope:ai-blog"
+    ]
   }
 }

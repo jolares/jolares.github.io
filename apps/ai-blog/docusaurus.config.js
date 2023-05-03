@@ -67,7 +67,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       colorMode: {
-        defaultMode: 'light', // options are 'light' or 'dark'
+        defaultMode: 'dark', // options are 'light' or 'dark'
         disableSwitch: false, // Hides the switch in the navbar.
         // Whether to use the prefers-color-scheme media-query, using user
         // system preferences, instead of the hardcoded defaultMode.
@@ -133,6 +133,10 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/jolares/jolares.github.io',
+              },
+              {
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/in/jolares',
               },
             ],
           },
