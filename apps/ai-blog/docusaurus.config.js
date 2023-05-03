@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
+  title: 'Jo Lares',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
 
@@ -17,8 +17,8 @@ const config = {
   baseUrl: '/',
 
   /* GitHub Pages deployment config. Only needed if using using GitHub pages */
-  organizationName: 'jolares', // Usually your GitHub org/user name.
-  projectName: 'jolares.github.io', // Usually your repo name.
+  organizationName: 'jolares', // Usually the GitHub org/user name.
+  projectName: 'jolares.github.io', // Usually the repo name.
   deploymentBranch: 'github-pages',
   trailingSlash: false, // GitHub Pages adds a trailing slash to Docusaurus URLs by default.
 
@@ -32,6 +32,8 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  plugins: ['docusaurus-plugin-sass'],
 
   presets: [
     [
@@ -53,7 +55,7 @@ const config = {
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve('./src/css/custom.scss'),
         },
       }),
     ],
@@ -72,9 +74,9 @@ const config = {
         respectPrefersColorScheme: false,
       },
       navbar: {
-        title: 'My Site',
+        title: 'Jo Lares',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'Jo Lares Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -130,12 +132,12 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/jolares/jolares.github.io',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Jo Lares`,
       },
       prism: {
         theme: lightCodeTheme,
