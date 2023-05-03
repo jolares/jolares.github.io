@@ -52,6 +52,7 @@
           "^build"
         ]
       }
-    }
+    },
+    "tags": ["type:app", "scope:ai-blog"]
   }
 }
