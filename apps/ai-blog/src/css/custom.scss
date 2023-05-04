@@ -15,7 +15,13 @@
   --ifm-color-primary-lightest: #3cad6e;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
 }
+
+// :root { font-family: 'Inter', sans-serif; }
+// @supports (font-variation-settings: normal) {
+//   :root { font-family: 'Inter var', sans-serif; }
+// }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
@@ -28,3 +34,4 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
