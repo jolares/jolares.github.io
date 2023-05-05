@@ -2,4 +2,4 @@
 sidebar_position: 4
 ---
 
-# Micro-Frontend Architectures
+# Micro-Frontend Architecture
