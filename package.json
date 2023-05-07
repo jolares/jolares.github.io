@@ -7,10 +7,11 @@
     "npm": "8.19.2"
   },
   "scripts": {
-    "nx": "nx",
-    "start": "nx serve",
-    "build": "nx build",
-    "test": "nx test"
+    "nx": "npx nx",
+    "start": "npx nx serve",
+    "build": "npx nx build",
+    "test": "npx nx test",
+    "deploy": "npx nx deploy"
   },
   "private": true,
   "devDependencies": {
@@ -26,8 +27,12 @@
     "typescript": "~4.3.5"
   },
   "dependencies": {
+    "@docusaurus/plugin-content-blog": "^2.4.0",
     "@docusaurus/preset-classic": "^2.4.0",
     "docusaurus-plugin-sass": "^0.2.3",
+    "hast-util-is-element": "^1.1.0",
+    "rehype-katex": "^5.0.0",
+    "remark-math": "^3.0.1",
     "sass": "^1.62.1"
   }
 }

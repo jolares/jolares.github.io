@@ -3,15 +3,13 @@
  * and scoped locally.
  */
 
-.heroBanner {
+.mainHeader {
   padding: 4rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-}
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
+  @media screen and (max-width: 996px) {
     padding: 2rem;
   }
 }
@@ -20,4 +18,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  a {
+    margin-right: 1rem;
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+:global(.button) {
+  border-radius: 32px;
 }
