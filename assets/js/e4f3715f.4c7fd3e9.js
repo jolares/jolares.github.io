@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkai_blog=self.webpackChunkai_blog||[]).push([[4578],{7441:o=>{o.exports=JSON.parse('{"permalink":"/blog/tags/docs","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"A blog about building stuff!","blogTitle":"Jo Lares blog!"}')}}]);
