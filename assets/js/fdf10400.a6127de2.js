@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkai_blog=self.webpackChunkai_blog||[]).push([[3854],{3800:a=>{a.exports=JSON.parse('{"label":"gcp","permalink":"/blog/tags/gcp","allTagsPath":"/blog/tags","count":1}')}}]);
