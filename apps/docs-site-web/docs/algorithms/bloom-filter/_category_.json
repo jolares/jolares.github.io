@@ -1,0 +1,8 @@
+{
+  "label": "Bloom Filter",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Notes on Bloom Filter"
+  }
+}

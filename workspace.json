@@ -1,8 +1,8 @@
 {
   "version": 2,
   "projects": {
-    "ai-blog": {
-      "root": "apps/ai-blog"
+    "docs-site-web": {
+      "root": "apps/docs-site-web"
     }
   },
   "cli": {

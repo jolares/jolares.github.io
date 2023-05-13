@@ -1,0 +1,8 @@
+{
+  "label": "Randomized Algorithms",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Notes on Randomized Algorithms"
+  }
+}
