@@ -17,7 +17,11 @@
 
           {
             "sourceTag": "type:app",
-            "onlyDependOnLibsWithTags": ["type:shell", "type:feature", "type:util"]
+            "onlyDependOnLibsWithTags": [
+              "type:shell",
+              "type:feature",
+              "type:util"
+            ]
           },
           {
             "sourceTag": "type:shell",

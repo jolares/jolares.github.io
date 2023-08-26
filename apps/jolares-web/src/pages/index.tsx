@@ -16,13 +16,11 @@ function HomepageHeader() {
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs">Theory
+          <Link className="button button--secondary button--lg" to="/docs">
+            Theory
           </Link>
-          <Link
-            className="button button--secondary button--lg"
-            to="/blog">Practice
+          <Link className="button button--secondary button--lg" to="/blog">
+            Practice
           </Link>
         </div>
       </div>
@@ -35,12 +33,10 @@ export default function Home() {
   return (
     <Layout
       title={`${siteConfig.title} | Home`}
-      description="Description will go into a meta tag in <head />">
-
+      description="Description will go into a meta tag in <head />"
+    >
       <HomepageHeader />
-      <main>
-        {/* <HomepageFeatures /> */}
-      </main>
+      <main>{/* <HomepageFeatures /> */}</main>
     </Layout>
   );
 }

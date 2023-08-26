@@ -36,9 +36,7 @@ const config = {
     locales: ['en'],
   },
 
-  plugins: [
-    'docusaurus-plugin-sass',
-  ],
+  plugins: ['docusaurus-plugin-sass'],
 
   presets: [
     [
@@ -51,9 +49,9 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/jolares/jolares.github.io/tree/master/apps/jolares-web/docs/',
-          
-          remarkPlugins: [math],  // Needed for KaTex support.
-          rehypePlugins: [katex],  // Needed for KaTex support.
+
+          remarkPlugins: [math], // Needed for KaTex support.
+          rehypePlugins: [katex], // Needed for KaTex support.
         },
         blog: {
           blogTitle: 'Jo Lares blog!',
@@ -64,8 +62,8 @@ const config = {
           blogSidebarCount: 'ALL', // Valid values are 'ALL' or a number.
           /* Reading Time */
           showReadingTime: true,
-          readingTime: ({content, frontMatter, defaultReadingTime}) =>
-          defaultReadingTime({content, options: {wordsPerMinute: 300}}),
+          readingTime: ({ content, frontMatter, defaultReadingTime }) =>
+            defaultReadingTime({ content, options: { wordsPerMinute: 300 } }),
           /* Feed */
           // feedOptions: {
           //   type: 'all', // 'rss' | 'atom' | 'json' | null (disables feed generation)
@@ -82,10 +80,10 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-          'https://github.com/jolares/jolares.github.io/tree/master/apps/jolares-web/blog/',
+            'https://github.com/jolares/jolares.github.io/tree/master/apps/jolares-web/blog/',
 
-          remarkPlugins: [math],  // Needed for KaTex support.
-          rehypePlugins: [katex],  // Needed for KaTex support.
+          remarkPlugins: [math], // Needed for KaTex support.
+          rehypePlugins: [katex], // Needed for KaTex support.
         },
         theme: {
           customCss: require.resolve('./src/css/custom.scss'),
@@ -133,7 +131,7 @@ const config = {
           {
             to: '/blog',
             label: 'Blog',
-            position: 'left'
+            position: 'left',
           },
           {
             href: 'https://github.com/jolares',
@@ -172,7 +170,7 @@ const config = {
               {
                 label: 'Report issues',
                 href: 'https://github.com/jolares/jolares.github.io/issues/new',
-              }
+              },
             ],
           },
           {
@@ -181,9 +179,9 @@ const config = {
               {
                 label: 'Twitter',
                 href: 'https://twitter.com/jo_lares',
-              }
+              },
             ],
-          }
+          },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Jo Lares`,
       },

@@ -1,53 +1,76 @@
-import { defineConfig, devices } from '@playwright/test';
+import { PlaywrightTestConfig, defineConfig, devices } from '@playwright/test';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
+const CI = process.env.CI == 'true';
+const HEADLESS = process.env.HEADLESS == 'true';
+const TEST_DIR = process.env.TEST_DIR || './e2e-tests';
+const ENV = process.env.ENV || 'development';
+const GREP = process.env.GREP || undefined;
+const GREP_INVERT = process.env.GREP || undefined;
 
-/**
- * See https://playwright.dev/docs/test-configuration.
+/*
+ * Playwright Configuration
+ * Refer to https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
-  testDir: './apps/test-automation-web/e2e-tests',
-  /* Run tests in files in parallel */
+const config: PlaywrightTestConfig = {
+  /*
+   * Filter tests
+   */
+  testDir: TEST_DIR,
+  grep: (GREP || undefined) as any,
+  grepInvert: (GREP_INVERT || undefined) as any,
+
+  // Run tests within test files in parallel
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  // Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
+  // Number of times to retry failed tests
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
+  // Opt out of parallel tests on CI
   workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  // Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+
+  /*
+    * Shared settings for all the projects below.
+    * See https://playwright.dev/docs/api/class-testoptions.
+    */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
+    // Base URL to use in actions like `await page.goto('/')`
     // baseURL: 'http://127.0.0.1:3000',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    //  Collect trace when retrying failed test. See https://playwright.dev/docs/trace-viewer
     trace: 'on-first-retry',
   },
 
-  /* Configure projects for major browsers */
+  /*
+    * Configure projects for major browsers
+    * See https://playwright.dev/docs/api/class-testoptions.
+    */
   projects: [
+    /* Desktop Viewports. */
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
+    // {
+    //   name: 'Microsoft Edge',
+    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    // },
+    // {
+    //   name: 'Google Chrome',
+    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    // },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    /* Mobile Viewports. */
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
     //   use: { ...devices['Pixel 5'] },
@@ -55,16 +78,6 @@ export default defineConfig({
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ..devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
 
@@ -74,4 +87,5 @@ export default defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
-});
+}
+export default defineConfig(config);

@@ -6,7 +6,6 @@
 
 /* Sets overrides for the default Infima variables. */
 :root {
-
   /* Colors */
 
   /// Base Colors
@@ -148,14 +147,13 @@
   // --ifm-transition-timing-default
   // --ifm-z-index-fixed
 
-
   /* Font Styles */
 
   @supports (font-variation-settings: normal) {
     font-family: var(--ifm-font-family-base);
   }
 
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 
   -webkit-font-smoothing: antialiased;
 
@@ -168,7 +166,6 @@
 
 /* For accessibility, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-
   --ifm-color-primary: #25c2a0;
   --ifm-color-primary-dark: #21af90;
   --ifm-color-primary-darker: #1fa588;
@@ -178,4 +175,3 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
-

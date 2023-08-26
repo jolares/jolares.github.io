@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/artifacts
 
 # dependencies
 /node_modules
@@ -39,6 +40,9 @@ testem.log
 Thumbs.db
 
 # Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
 /test-results/
 /playwright-report/
 /playwright/.cache/

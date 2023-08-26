@@ -1,4 +1,12 @@
 {
   "name": "jolares-web",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json"
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test"
+      }
+    }
+  }
 }

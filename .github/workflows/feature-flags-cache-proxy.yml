@@ -1,0 +1,24 @@
+name: CT
+on:
+  schedule:
+  #          ┌───────────── minute (0 - 59)
+  #          │ ┌───────────── hour (0 - 23)
+  #          │ │ ┌───────────── day of the month (1 - 31)
+  #          │ │ │ ┌───────────── month (1 - 12)
+  #          │ │ │ │ ┌───────────── day of the week (0 - 6)
+    - cron: "0 0 * * *" # Runs at the end of every day
+
+jobs:
+  update-feature-flags-cache:
+    name: Update Feature Flag Cache
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+
+    # TODO: read feature flag values from backendFeatureFlags endpoints
+    #       then store value in json
+    #       then upload value to feature-flags-cache bucket on cloud storage
