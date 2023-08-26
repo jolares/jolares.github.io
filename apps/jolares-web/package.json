@@ -1,5 +1,5 @@
 {
-  "name": "docs-site-web",
+  "name": "jolares-web",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -46,7 +46,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "apps/docs-site-web/build"
+          "apps/jolares-web/build"
         ],
         "dependsOn": [
           "^build"
@@ -55,7 +55,7 @@
     },
     "tags": [
       "type:app",
-      "scope:docs-site-web"
+      "scope:jolares-web"
     ]
   }
 }

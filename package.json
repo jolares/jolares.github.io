@@ -15,7 +15,6 @@
   },
   "private": true,
   "devDependencies": {
-    "@nrwl/cli": "^15.9.3",
     "@nrwl/react": "16.7.4",
     "@nrwl/storybook": "16.7.4",
     "@nx/devkit": "16.7.4",

@@ -6,10 +6,15 @@
       {
         "allow": [],
         "depConstraints": [
+          /* Project Scopes */
+
           {
             "sourceTag": "scope:shared",
             "onlyDependOnLibsWithTags": ["scope:shared"]
           },
+
+          /* Project Types */
+
           {
             "sourceTag": "type:app",
             "onlyDependOnLibsWithTags": ["type:shell", "type:feature", "type:util"]

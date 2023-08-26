@@ -50,7 +50,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/jolares/jolares.github.io/tree/master/apps/docs-site-web/docs/',
+            'https://github.com/jolares/jolares.github.io/tree/master/apps/jolares-web/docs/',
           
           remarkPlugins: [math],  // Needed for KaTex support.
           rehypePlugins: [katex],  // Needed for KaTex support.
@@ -82,7 +82,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-          'https://github.com/jolares/jolares.github.io/tree/master/apps/docs-site-web/blog/',
+          'https://github.com/jolares/jolares.github.io/tree/master/apps/jolares-web/blog/',
 
           remarkPlugins: [math],  // Needed for KaTex support.
           rehypePlugins: [katex],  // Needed for KaTex support.

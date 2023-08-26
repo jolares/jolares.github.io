@@ -1,4 +1,4 @@
 {
-  "name": "docs-site-web",
+  "name": "jolares-web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json"
 }
