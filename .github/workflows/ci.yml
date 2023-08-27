@@ -5,6 +5,9 @@ on:
       - master
       - feat-setup-ai-blog-app
 
+env:
+  CI: true
+
 jobs:
   build:
     name: Build
@@ -57,14 +60,19 @@ jobs:
       - name: Publish artifacts
         uses: actions/upload-artifact@v2
         with:
-            name: clients-${{ github.sha }}
-            path: clients-${{ github.sha }}.tgz
+          name: clients-${{ github.sha }}
+          path: clients-${{ github.sha }}.tgz
 
   deploy:
     name: Deploy
     needs: [build]
-    environment: production
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment:
+          - development
+          - production
+    environment: ${{ matrix.environment }}
     permissions:
       contents: read
       id-token: write
@@ -111,7 +119,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # A value of zero is needed by nrwl/nx-set-shas@v3
+          fetch-depth: 0 # Note: this value is needed by nrwl/nx-set-shas@v3
 
       - uses: actions/setup-node@v3
         with:
@@ -176,22 +184,20 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-     - name: Auth Google Cloud
+      - name: Auth Google Cloud
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: ${{ secrets.GCP_CS_SA_KEY }}
 
-    - name: Setup Google Cloud SDK
-      uses: 'google-github-actions/setup-gcloud@v1'
-      with:
-        version: '>= 363.0.0'
+      - name: Setup Google Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          version: '>= 363.0.0'
 
-    - name: Release
-      id: deprecate-blue
-      run: |
-        gsutil -m rsync \
-          gs://${{ secrets.GCP_CS_CLIENTS_BUCKET_NAME }}/${{ github.sha }} \
-          gs://${{ secrets.GCP_CS_CLIENTS_BUCKET_NAME }}/release
-
-
+      - name: Release
+        id: deprecate-blue
+        run: |
+          gsutil -m rsync \
+            gs://${{ secrets.GCP_CS_CLIENTS_BUCKET_NAME }}/${{ github.sha }} \
+            gs://${{ secrets.GCP_CS_CLIENTS_BUCKET_NAME }}/release

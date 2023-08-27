@@ -6,6 +6,11 @@
       {
         "allow": [],
         "depConstraints": [
+          {
+            "sourceTag": "*",
+            "onlyDependOnLibsWithTags": ["*"]
+          },
+
           /* Project Scopes */
 
           {
@@ -34,6 +39,10 @@
           {
             "sourceTag": "type:data-access",
             "onlyDependOnLibsWithTags": ["type:data-access", "type:util"]
+          },
+          {
+            "sourceTag": "type:ui",
+            "onlyDependOnLibsWithTags": ["type:ui", "type:util"]
           },
           {
             "sourceTag": "type:util",

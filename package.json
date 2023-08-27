@@ -17,7 +17,9 @@
     "format:fix": "npx nx format:write --all",
     "format:check": "npx nx format:check",
     "// ci //": "",
-    "deploy": "npx nx deploy"
+    "preinstall": "node scripts/preinstall.ts",
+    "deploy": "npx nx deploy",
+    "prepare": "node scripts/prepare.ts"
   },
   "private": true,
   "devDependencies": {
@@ -36,6 +38,7 @@
     "@types/express": "4.17.13",
     "@types/jest": "^29.4.0",
     "@types/node": "~18.7.1",
+    "husky": "^8.0.3",
     "jest": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "launchdarkly-node-client-sdk": "^3.0.2",

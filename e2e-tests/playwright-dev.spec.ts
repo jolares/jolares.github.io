@@ -15,7 +15,9 @@ test.describe('', () => {
     await page.getByRole('link', { name: 'Get started' }).click();
 
     // Expects page to have a heading with the name of Installation.
-    await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Installation' })
+    ).toBeVisible();
   });
 });
 
@@ -34,7 +36,7 @@ test('getting started should contain table of contents', async ({ page }) => {
     `Write tests using web first assertions, page fixtures and locators`,
     `Run single test, multiple tests, headed mode`,
     `Generate tests with Codegen`,
-    `See a trace of your tests`
+    `See a trace of your tests`,
   ]);
 });
 
@@ -42,17 +44,20 @@ test('should show Page Object Model article', async ({ page }) => {
   const playwrightDev = new PlaywrightDevPage(page);
   await playwrightDev.goto();
   await playwrightDev.pageObjectModel();
-  await expect(page.locator('article')).toContainText('Page Object Model is a common pattern');
+  await expect(page.locator('article')).toContainText(
+    'Page Object Model is a common pattern'
+  );
 });
 
 /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----*/
 
 import AxeBuilder from '@axe-core/playwright';
 
-test.describe('@a11y', () => {
+test.describe('@accessibility', () => {
   // Scanning an entire page
-  test('should not have any automatically detectable accessibility issues',
-  async ({ page }) => {
+  test('should not have any automatically detectable accessibility issues', async ({
+    page,
+  }) => {
     await page.goto('https://playwright.dev');
 
     const a11yScanResults = await new AxeBuilder({ page }).analyze(); // 4
@@ -66,18 +71,18 @@ test.describe('@a11y', () => {
       page,
     }) => {
       await page.goto('https://playwright.dev');
-    
+
       await page.getByRole('button', { name: 'Navigation Menu' }).click();
-    
+
       // It is important to waitFor() the page to be in the desired
       // state *before* running analyze(). Otherwise, axe might not
       // find all the elements your test expects it to scan.
       await page.locator('#navigation-menu-flyout').waitFor();
-    
+
       const a11yScanResults = await new AxeBuilder({ page })
-          .include('#navigation-menu-flyout')
-          .analyze();
-    
+        .include('#navigation-menu-flyout')
+        .analyze();
+
       expect(a11yScanResults.violations).toEqual([]);
     });
   });
@@ -85,17 +90,19 @@ test.describe('@a11y', () => {
   // Scanning for WCAG violations
   // https://playwright.dev/docs/accessibility-testing#scanning-for-wcag-violations
 
-  test('should not have auto-detectable WCAG A or AA violations', async ({ page }) => {
+  test('should not have auto-detectable WCAG A or AA violations', async ({
+    page,
+  }) => {
     await page.goto('https://playwright.dev');
-  
+
     const a11yScanResults = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-        // Note: this is how we exclude some known issues
-        .exclude('#element-with-known-issue')
-        // Note: this is how we can disabling individual scan rules (not recommended)
-        .disableRules(['duplicate-id'])
-        .analyze();
-  
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      // Note: this is how we exclude some known issues
+      .exclude('#element-with-known-issue')
+      // Note: this is how we can disabling individual scan rules (not recommended)
+      .disableRules(['duplicate-id'])
+      .analyze();
+
     expect(a11yScanResults.violations).toEqual([]);
   });
 });
