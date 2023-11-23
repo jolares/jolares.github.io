@@ -1,13 +1,14 @@
 # Refer to http://help.github.com/ignore-files/
 
 # compiled output
-/dist
-/tmp
-/out-tsc
-/artifacts
+/dist/
+/tmp/
+/out-tsc/
+/artifacts/
+/.nx/
 
 # dependencies
-/node_modules
+/node_modules/
 
 # IDEs and editors
 /.idea
