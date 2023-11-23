@@ -1,8 +1,8 @@
 {
-  "label": "AI Fairness & Bias",
+  "label": "Fairness & Bias",
   "position": 4,
   "link": {
     "type": "generated-index",
-    "description": "AI Fairness & Bias"
+    "description": "Notes on Fairness & Bias, and stuff like that."
   }
 }

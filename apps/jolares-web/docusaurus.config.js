@@ -13,17 +13,18 @@ const config = {
   tagline: 'A website on building stuff, and things like that.',
   favicon: 'img/favicon.ico',
 
-  // Set the production url of the site here
+  // Specifies the production url of the site here
   url: 'https://jolares.github.io.',
-  // Set the /<baseUrl>/ pathname under which the site is served
+  // Specifies the /<baseUrl>/ pathname under which the site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
-  /* GitHub Pages deployment config. Only needed if using using GitHub pages */
+  /* GitHub Pages deployment config. Note: this is onnly needed when using GitHub pages */
   organizationName: 'jolares', // Usually the GitHub org/user name.
   projectName: 'jolares.github.io', // Usually the repo name.
   deploymentBranch: 'github-pages',
-  trailingSlash: false, // GitHub Pages adds a trailing slash to Docusaurus URLs by default.
+  // Specifies whether GitHub Pages adds a trailing slash to Docusaurus URLs.
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -50,16 +51,18 @@ const config = {
           editUrl:
             'https://github.com/jolares/jolares.github.io/tree/master/apps/jolares-web/docs/',
 
-          remarkPlugins: [math], // Needed for KaTex support.
+          remarkPlugins: [math],  // Needed for KaTex support.
           rehypePlugins: [katex], // Needed for KaTex support.
         },
         blog: {
           blogTitle: 'Jo Lares blog!',
           blogDescription: 'A blog about building stuff!',
           postsPerPage: 10, // Valid values are 'ALL' or a number.
+
           /* Blog Sidebar */
           blogSidebarTitle: 'Recent posts',
           blogSidebarCount: 'ALL', // Valid values are 'ALL' or a number.
+
           /* Reading Time */
           showReadingTime: true,
           readingTime: ({ content, frontMatter, defaultReadingTime }) =>
@@ -85,6 +88,8 @@ const config = {
           remarkPlugins: [math], // Needed for KaTex support.
           rehypePlugins: [katex], // Needed for KaTex support.
         },
+        
+        /* Theme */
         theme: {
           customCss: require.resolve('./src/css/custom.scss'),
         },

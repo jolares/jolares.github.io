@@ -15,7 +15,7 @@ if (CI) {
 
 // Check node version
 const nodeVersion = process.version.slice(1).split('.');
-const expectedNodeVersion = 18;
+const expectedNodeVersion = 16;
 if (+nodeVersion[0] < expectedNodeVersion) {
   console.error(
     `Make sure that your installed Node version is greater than v${expectedNodeVersion}`

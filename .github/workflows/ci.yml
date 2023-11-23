@@ -42,11 +42,11 @@ jobs:
 
       - run: npm ci
 
-      # - run: npx nx format:check
+      - run: npx nx format:check
 
-      # - run: npx nx affected --target=lint --parallel=3
+      - run: npx nx affected --target=lint --parallel=3
 
-      # - run: npx nx affected --target=test --parallel=3 --configuration=ci
+      - run: npx nx affected --target=test --parallel=3 --configuration=ci
 
       - run: npx nx affected --target=build --parallel=3
 
@@ -57,7 +57,7 @@ jobs:
       - name: Create artifacts tarball
         run: tar -czvf clients-${{ github.sha }}.tgz -C dist .
 
-      - name: Publish artifacts
+      - name: Publish artifacts to artifact registry
         uses: actions/upload-artifact@v2
         with:
           name: clients-${{ github.sha }}
@@ -82,7 +82,7 @@ jobs:
         with:
           fetch-depth: 0 # A value of zero is needed by nrwl/nx-set-shas@v3
 
-      - name: Download artifacts
+      - name: Download artifacts tarball
         uses: actions/download-artifact@v2
         with:
           name: clients-${{ github.sha }}
@@ -117,7 +117,8 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout git branches
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Note: this value is needed by nrwl/nx-set-shas@v3
 
@@ -172,14 +173,16 @@ jobs:
 
   release:
     name: Release
-    needs: [e2e]
+    needs: [build, deploy, e2e]
     environment: production
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout git branches
+        uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
