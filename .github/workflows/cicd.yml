@@ -1,4 +1,4 @@
-name: CI
+name: CICD
 on:
   push:
     branches:
@@ -11,7 +11,6 @@ env:
 jobs:
   build:
     name: Build
-    environment: production
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -40,6 +39,11 @@ jobs:
           error-on-no-successful-workflow: false
           working-directory: '.'
 
+      # Refer to https://github.com/actions/configure-pages
+      - name: Setup GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v3
+
       - run: npm ci
 
       - run: npx nx format:check
@@ -50,18 +54,26 @@ jobs:
 
       - run: npx nx affected --target=build --parallel=3
 
-      ## Publish
+      ## Publish Built Artifacts
 
       # - run: npm pack
 
       - name: Create artifacts tarball
-        run: tar -czvf clients-${{ github.sha }}.tgz -C dist .
+        run: tar -czvf dist-${{ github.sha }}.tgz -C dist .
 
-      - name: Publish artifacts to artifact registry
+      - name: Publish artifacts to artifact registry (GitHub Packages)
         uses: actions/upload-artifact@v2
         with:
-          name: clients-${{ github.sha }}
-          path: clients-${{ github.sha }}.tgz
+          name: dist-${{ github.sha }}
+          path: dist-${{ github.sha }}.tgz
+
+      - name: Publish artifacts to artifact registry (GitHub Pages)
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: dist/apps/jolares-web
+          retention-days: 1
+          # Note: name must be github-pages for actions/deploy-pages@v2 to work.
+          name: github-pages
 
   deploy:
     name: Deploy
@@ -70,12 +82,13 @@ jobs:
     strategy:
       matrix:
         environment:
-          - development
+          # - development
           - production
     environment: ${{ matrix.environment }}
     permissions:
       contents: read
       id-token: write
+      pages: write
     steps:
       - name: Checkout git branches
         uses: actions/checkout@v2
@@ -85,28 +98,37 @@ jobs:
       - name: Download artifacts tarball
         uses: actions/download-artifact@v2
         with:
-          name: clients-${{ github.sha }}
+          name: dist-${{ github.sha }}
           path: .
 
       - name: Extract artifacts tarball
         run: |
-          mkdir -p artifacts \
-          && tar zxvf clients-${{ github.sha }}.tgz --directory artifacts
+          mkdir -p dist && tar zxvf dist-${{ github.sha }}.tgz --directory dist
 
       - name: Auth Google Cloud
-        id: 'auth'
+        id: 'auth-gcp'
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: ${{ secrets.GCP_CS_SA_KEY }}
 
       - name: Deploy artifacts to Google Cloud Storage
-        id: 'deploy-green'
+        id: 'deploy-gcp-cs'
         uses: 'google-github-actions/upload-cloud-storage@v1'
         with:
-          path: artifacts
+          path: dist
           parent: false
           destination: ${{ secrets.GCP_CS_CLIENTS_BUCKET_NAME }}/${{ github.sha }}
           gzip: true
+
+      - name: Extract artifacts tarball
+        run: |
+          mkdir -p github-pages && tar zxvf dist-${{ github.sha }}.tgz --directory github-pages
+
+          mv github-pages/apps/jolares-web github-pages
+
+      - name: Deploy artifacts to GitHub Pages
+        id: 'deploy-gh-pages'
+        uses: actions/deploy-pages@v2
 
   e2e:
     name: Test E2E
@@ -143,7 +165,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Display affected projects with a defined e2e target
-        run: npx nx show projects --affected --with-target e2e
+        run: npx nx show projects --affected --with-target=e2e
 
       - name: Run E2E tests
         run: npx nx affected --target=e2e
@@ -157,7 +179,7 @@ jobs:
           retention-days: 30
 
       # - name: Auth Google Cloud
-      #   id: 'auth'
+      #   id: 'gcp'
       #   uses: 'google-github-actions/auth@v1'
       #   with:
       #     credentials_json: ${{ secrets.GCP_CS_SA_KEY }}

@@ -51,7 +51,7 @@ const config = {
           editUrl:
             'https://github.com/jolares/jolares.github.io/tree/master/apps/jolares-web/docs/',
 
-          remarkPlugins: [math],  // Needed for KaTex support.
+          remarkPlugins: [math], // Needed for KaTex support.
           rehypePlugins: [katex], // Needed for KaTex support.
         },
         blog: {
@@ -88,7 +88,7 @@ const config = {
           remarkPlugins: [math], // Needed for KaTex support.
           rehypePlugins: [katex], // Needed for KaTex support.
         },
-        
+
         /* Theme */
         theme: {
           customCss: require.resolve('./src/css/custom.scss'),
