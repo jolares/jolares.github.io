@@ -1,5 +1,6 @@
 ---
 sidebar_position: 4
+title: Independent Component Analysis (ICA)
 ---
 
-# ICA
+# Independent Component Analysis (ICA)

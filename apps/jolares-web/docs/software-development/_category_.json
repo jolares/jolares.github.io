@@ -1,8 +1,8 @@
 {
-  "label": "Software Development",
+  "label": "Software Development Engineering",
   "position": 3,
   "link": {
     "type": "generated-index",
-    "description": "Software Development Engineering notes"
+    "description": "Software Development Engineering notes, and things like that."
   }
 }

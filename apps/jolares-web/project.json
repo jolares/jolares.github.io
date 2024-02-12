@@ -8,5 +8,9 @@
         "command": "npx playwright test"
       }
     }
-  }
+  },
+  "tags": [
+    "type:app",
+    "scope:jolares-web"
+  ]
 }

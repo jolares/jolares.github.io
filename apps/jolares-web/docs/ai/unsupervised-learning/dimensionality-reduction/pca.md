@@ -1,5 +1,6 @@
 ---
 sidebar_position: 4
+title: Principal Component Analysis (PCA)
 ---
 
-# PCA
+# Principal Component Analysis (PCA)

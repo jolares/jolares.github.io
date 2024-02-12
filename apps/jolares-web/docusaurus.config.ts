@@ -1,19 +1,19 @@
-// @ts-check
-// Note: type annotations allow type checking and IDEs autocompletion
+import type {Config as DocusaurusConfig} from '@docusaurus/types';
+import type {Options, ThemeConfig} from '@docusaurus/preset-classic';
+import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+import type * as Preset from '@docusaurus/preset-classic';
+import { themes } from 'prism-react-renderer';
 
 const math = require('remark-math');
 const katex = require('rehype-katex');
 
-/** @type {import('@docusaurus/types').Config} */
-const config = {
+const config: DocusaurusConfig = {
   title: 'Jo Lares',
   tagline: 'A website on building stuff, and things like that.',
   favicon: 'img/favicon.ico',
 
-  // Specifies the production url of the site here
+  // Specifies the url of the site
   url: 'https://jolares.github.io.',
   // Specifies the /<baseUrl>/ pathname under which the site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
@@ -36,16 +36,16 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
+  
   plugins: ['docusaurus-plugin-sass'],
 
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve('./sidebars.config.ts'),
+          
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -54,20 +54,25 @@ const config = {
           remarkPlugins: [math], // Needed for KaTex support.
           rehypePlugins: [katex], // Needed for KaTex support.
         },
+
         blog: {
           blogTitle: 'Jo Lares blog!',
           blogDescription: 'A blog about building stuff!',
           postsPerPage: 10, // Valid values are 'ALL' or a number.
 
           /* Blog Sidebar */
+
           blogSidebarTitle: 'Recent posts',
           blogSidebarCount: 'ALL', // Valid values are 'ALL' or a number.
 
           /* Reading Time */
+
           showReadingTime: true,
           readingTime: ({ content, frontMatter, defaultReadingTime }) =>
             defaultReadingTime({ content, options: { wordsPerMinute: 300 } }),
+
           /* Feed */
+          
           // feedOptions: {
           //   type: 'all', // 'rss' | 'atom' | 'json' | null (disables feed generation)
           //   copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
@@ -82,23 +87,27 @@ const config = {
           // },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
+          
           editUrl:
             'https://github.com/jolares/jolares.github.io/tree/master/apps/jolares-web/blog/',
 
-          remarkPlugins: [math], // Needed for KaTex support.
-          rehypePlugins: [katex], // Needed for KaTex support.
+          remarkPlugins: [math], // Needed to support KaTex.
+
+          rehypePlugins: [katex], // Needed to support KaTex.
         },
 
-        /* Theme */
+        /*
+         * Theme Configuration
+         */
         theme: {
           customCss: require.resolve('./src/css/custom.scss'),
-        },
-      }),
+        }
+      }) as Options,
     ],
   ],
 
   stylesheets: [
-    // Needed for KaTex support.
+    // Needed to support KaTex in markdown documents.
     {
       href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
       type: 'text/css',
@@ -109,7 +118,6 @@ const config = {
   ],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
@@ -191,10 +199,25 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Jo Lares`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: themes.github,
+        darkTheme: themes.dracula
       },
-    }),
+    }) as ThemeConfig,
+
+    markdown: {
+      format: 'mdx',
+      mermaid: true,
+      preprocessor: ({filePath, fileContent}) => {
+        return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+      },
+      mdx1Compat: {
+        comments: true,
+        admonitions: true,
+        headingIds: true,
+      },
+    },
+  
 };
 
-module.exports = config;
+export default config;
+
