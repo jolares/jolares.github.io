@@ -1,0 +1,62 @@
+{
+  "name": "jolares-web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "docusaurus": "npx docusaurus",
+    "start": "npx docusaurus start",
+    "build": "npx docusaurus build && rm -rf ../../dist/apps/jolares-web && mkdir -p ../../dist/apps/jolares-web && cp -R build/ ../../dist/apps/jolares-web",
+    "swizzle": "npx docusaurus swizzle",
+    "lint": "npx docusaurus-mdx-checker",
+    "deploy": "npx docusaurus deploy",
+    "clear": "npx docusaurus clear",
+    "serve": "npx docusaurus serve",
+    "write-translations": "npx docusaurus write-translations",
+    "write-heading-ids": "npx docusaurus write-heading-ids"
+  },
+  "dependencies": {
+    "remark-math": "^3.0.1",
+    "rehype-katex": "^5.0.0",
+    "@docusaurus/core": "3.1.1",
+    "@docusaurus/preset-classic": "3.1.1",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^1.2.1",
+    "docusaurus-plugin-sass": "^0.2.3",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.62.1"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "3.1.1",
+    "@docusaurus/tsconfig": "3.1.1",
+    "@docusaurus/types": "3.1.1",
+    "typescript": "~5.2.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [],
+        "dependsOn": [
+          "^build"
+        ]
+      }
+    },
+    "tags": [
+      "type:app",
+      "scope:jolares-web"
+    ]
+  }
+}

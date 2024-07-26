@@ -1,0 +1,8 @@
+{
+  "label": "Graph",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Notes on Graphs and Graph algorithms, and things like that."
+  }
+}

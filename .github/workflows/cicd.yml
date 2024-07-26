@@ -1,0 +1,228 @@
+name: CICD
+on:
+  push:
+    branches:
+      - master
+      - feat-setup-ai-blog-app
+
+env:
+  CI: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout git branches
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # A value of zero is needed by nrwl/nx-set-shas@v3
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      # Sets the base and head SHAs used by nx affected commands.
+      # Refer to: https://github.com/nrwl/nx-set-shas
+      - name: Setup Nx
+        uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'master'
+          set-environment-variables-for-job: true
+          last-successful-event: 'push'
+          error-on-no-successful-workflow: false
+          working-directory: '.'
+
+      # Refer to https://github.com/actions/configure-pages
+      - name: Setup GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v3
+
+      - run: npm ci
+
+      - run: npx nx format:check
+
+      - run: npx nx affected --target=lint --parallel=3
+
+      - run: npx nx affected --target=test --parallel=3 --configuration=ci
+
+      - run: npx nx affected --target=build --parallel=3
+
+      ## Publish Built Artifacts
+
+      # - run: npm pack
+
+      - name: Create artifacts tarball
+        run: tar -czvf dist-${{ github.sha }}.tgz -C dist .
+
+      - name: Publish artifacts to artifact registry (GitHub Packages)
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist-${{ github.sha }}
+          path: dist-${{ github.sha }}.tgz
+
+      - name: Publish artifacts to artifact registry (GitHub Pages)
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: dist/apps/jolares-web
+          retention-days: 1
+          # Note: name must be github-pages for actions/deploy-pages@v2 to work.
+          name: github-pages
+
+  deploy:
+    name: Deploy
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment:
+          # - development
+          - production
+    environment: ${{ matrix.environment }}
+    permissions:
+      contents: read
+      id-token: write
+      pages: write
+    steps:
+      - name: Checkout git branches
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # A value of zero is needed by nrwl/nx-set-shas@v3
+
+      - name: Download artifacts tarball
+        uses: actions/download-artifact@v2
+        with:
+          name: dist-${{ github.sha }}
+          path: .
+
+      - name: Extract artifacts tarball
+        run: |
+          mkdir -p dist && tar zxvf dist-${{ github.sha }}.tgz --directory dist
+
+      - name: Auth Google Cloud
+        id: 'auth-gcp'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: ${{ secrets.GCP_CS_SA_KEY }}
+
+      - name: Deploy artifacts to Google Cloud Storage
+        id: 'deploy-gcp-cs'
+        uses: 'google-github-actions/upload-cloud-storage@v1'
+        with:
+          path: dist
+          parent: false
+          destination: ${{ secrets.GCP_CS_CLIENTS_BUCKET_NAME }}/${{ github.sha }}
+          gzip: true
+
+      - name: Extract artifacts tarball
+        run: |
+          mkdir -p github-pages && tar zxvf dist-${{ github.sha }}.tgz --directory github-pages
+
+          mv github-pages/apps/jolares-web github-pages
+
+      - name: Deploy artifacts to GitHub Pages
+        id: 'deploy-gh-pages'
+        uses: actions/deploy-pages@v2
+
+  e2e:
+    name: Test E2E
+    needs: [deploy]
+    environment: production
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout git branches
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Note: this value is needed by nrwl/nx-set-shas@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+
+      # Sets the base and head SHAs used by nx affected commands.
+      # Refer to: https://github.com/nrwl/nx-set-shas
+      - name: Setup Nx
+        uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'master'
+          set-environment-variables-for-job: true
+          last-successful-event: 'push'
+          error-on-no-successful-workflow: false
+          working-directory: '.'
+
+      - run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Display affected projects with a defined e2e target
+        run: npx nx show projects --affected --with-target=e2e
+
+      - name: Run E2E tests
+        run: npx nx affected --target=e2e
+
+      - name: Publish E2E Test Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report-${{ github.sha }}
+          path: playwright-report/
+          retention-days: 30
+
+      # - name: Auth Google Cloud
+      #   id: 'gcp'
+      #   uses: 'google-github-actions/auth@v1'
+      #   with:
+      #     credentials_json: ${{ secrets.GCP_CS_SA_KEY }}
+
+      # - name: Deploy E2E Test Report to Google Cloud Storage
+      #   id: 'deploy-e2e-test-report'
+      #   uses: 'google-github-actions/upload-cloud-storage@v1'
+      #   with:
+      #     path: playwright-report-${{ github.sha }}
+      #     parent: false
+      #     destination: ${{ secrets.GCP_CS_E2E_TEST_REPORTS_BUCKET_NAME }}/${{ github.sha }}
+      #     gzip: true
+
+  release:
+    name: Release
+    needs: [build, deploy, e2e]
+    environment: production
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout git branches
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+
+      - name: Auth Google Cloud
+        id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: ${{ secrets.GCP_CS_SA_KEY }}
+
+      - name: Setup Google Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          version: '>= 363.0.0'
+
+      - name: Release
+        id: deprecate-blue
+        run: |
+          gsutil -m rsync \
+            gs://${{ secrets.GCP_CS_CLIENTS_BUCKET_NAME }}/${{ github.sha }} \
+            gs://${{ secrets.GCP_CS_CLIENTS_BUCKET_NAME }}/release
